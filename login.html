@@ -215,10 +215,18 @@
           document.body.classList.contains("light-mode") ? "light" : "dark"
         );
       }
+
       // Load theme
       if (localStorage.getItem("theme") === "light") {
         document.body.classList.add("light-mode");
       }
+
+      // Test authentication system on page load
+      console.log("=== LOGIN PAGE DEBUG ===");
+      console.log("Supabase client available:", !!window.supabaseClient);
+      console.log("Auth system available:", !!window.auth);
+      console.log("Current user:", window.auth?.getCurrentUser());
+      console.log("========================");
 
       // Check for sign up success message
       if (sessionStorage.getItem("signUpSuccess")) {
