@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirecting to Korean Learning Hub</title>
+    <!-- Supabase Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script>
+      // Wait for Supabase to initialize
+      let retryCount = 0;
+      const maxRetries = 50; // About 5 seconds at 100ms intervals
+      function checkAuth() {
+        if (window.supabaseClient && window.auth) {
+          const user = window.auth.getCurrentUser();
+          if (user) {
+            window.location.href = "main-menu.html";
+          } else {
+            window.location.href = "login.html";
+          }
+        } else {
+          retryCount++;
+          if (retryCount < maxRetries) {
+            setTimeout(checkAuth, 100);
+          } else {
+            // Fallback: redirect to login if Supabase doesn't initialize
+            window.location.href = "login.html";
+          }
+        }
+      }
+      // Start checking after a short delay
+      setTimeout(checkAuth, 500);
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content="0; url=login.html" />
+    </noscript>
+  </head>
+  <body>
+    <p>Redirecting...</p>
+  </body>
+</html>

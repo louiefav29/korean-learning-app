@@ -1,0 +1,395 @@
+/* Main Menu Styles */
+.learning-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.tool-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px var(--shadow-color),
+    0 2px 4px -1px var(--shadow-color);
+}
+
+.tool-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to right, #9333ea, #ec4899);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px var(--shadow-color),
+    0 10px 10px -5px var(--shadow-color);
+}
+
+.tool-card:hover::before {
+  transform: scaleX(1);
+}
+
+.tool-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #9333ea, #ec4899);
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.tool-card:hover .tool-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.tool-icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.tool-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.tool-content p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.tool-stats {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.stat {
+  background: var(--btn-bg-hover);
+  color: var(--text-secondary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid var(--card-border);
+}
+
+.tool-action {
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Quick Stats Section */
+.quick-stats {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-top: 3rem;
+}
+
+.quick-stats h2 {
+  color: var(--text-primary);
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, var(--btn-bg), var(--btn-bg-hover));
+  border: 1px solid var(--card-border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--header-color);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Modal Enhancements */
+.modal-content {
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tool-specific styles */
+.tool-card[data-tool="flashcards"] .tool-icon {
+  background: linear-gradient(135deg, #9333ea, #7c3aed);
+}
+
+.tool-card[data-tool="quiz"] .tool-icon {
+  background: linear-gradient(135deg, #ec4899, #db2777);
+}
+
+.tool-card[data-tool="practice"] .tool-icon {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.tool-card[data-tool="listening"] .tool-icon {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.tool-card[data-tool="progress"] .tool-icon {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.tool-card[data-tool="settings"] .tool-icon {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+}
+
+/* Loading animation */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--card-border);
+  border-radius: 50%;
+  border-top-color: var(--header-color);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .learning-tools-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .tool-card {
+    padding: 1.5rem;
+  }
+
+  .tool-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .tool-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .tool-content h2 {
+    font-size: 1.25rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem;
+  }
+
+  header h1 {
+    font-size: 2rem;
+  }
+
+  .tool-card {
+    padding: 1rem;
+  }
+
+  .quick-stats {
+    padding: 1.5rem;
+  }
+
+  .quick-stats h2 {
+    font-size: 1.5rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 4K TV Support */
+@media (min-width: 3840px) {
+  .learning-tools-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+
+  .tool-card {
+    padding: 3rem;
+  }
+
+  .tool-icon {
+    width: 120px;
+    height: 120px;
+  }
+
+  .tool-icon svg {
+    width: 60px;
+    height: 60px;
+  }
+
+  .tool-content h2 {
+    font-size: 2.5rem;
+  }
+
+  .tool-content p {
+    font-size: 1.25rem;
+  }
+
+  .stat {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .quick-stats {
+    padding: 3rem;
+  }
+
+  .quick-stats h2 {
+    font-size: 3rem;
+  }
+
+  .stat-card {
+    padding: 2.5rem;
+  }
+
+  .stat-value {
+    font-size: 3rem;
+  }
+
+  .stat-label {
+    font-size: 1.25rem;
+  }
+}
+
+/* Animation for tool cards entrance */
+.tool-card {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.tool-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.tool-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.tool-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.tool-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.tool-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.tool-card:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover effects for buttons */
+.tool-card .btn {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-card .btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.tool-card .btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Focus states for accessibility */
+.tool-card:focus-visible,
+.tool-card .btn:focus-visible {
+  outline: 2px solid var(--header-color);
+  outline-offset: 2px;
+}

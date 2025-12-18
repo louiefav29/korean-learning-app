@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login to Korean Learning Hub</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .login-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 2rem;
+      }
+      .login-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 20px 25px -5px var(--shadow-color),
+          0 10px 10px -5px var(--shadow-color);
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+      }
+      .login-card h1 {
+        color: var(--header-color);
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+      }
+      .form-group {
+        margin-bottom: 1.5rem;
+        text-align: left;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--card-border);
+        border-radius: 0.5rem;
+        background-color: var(--btn-bg);
+        color: var(--text-primary);
+        font-size: 1rem;
+        transition: border-color 0.2s;
+      }
+      .form-group input:focus {
+        outline: none;
+        border-color: var(--header-color);
+      }
+      .btn-login {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #9333ea;
+        color: #ffffff;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        box-shadow: 0 4px 6px -1px var(--shadow-color),
+          0 2px 4px -1px var(--shadow-color);
+      }
+      .btn-login:hover {
+        background-color: #7e22ce;
+      }
+      .auth-toggle {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+      .auth-toggle a {
+        color: var(--header-color);
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      .theme-toggle {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background-color: var(--btn-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 4px 6px -1px var(--shadow-color),
+          0 2px 4px -1px var(--shadow-color);
+      }
+      .theme-toggle:hover {
+        background-color: var(--btn-bg-hover);
+        transform: scale(1.05);
+      }
+      .error-message {
+        color: #ef4444;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <svg
+        class="sun-icon"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+      <svg
+        class="moon-icon"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </div>
+    <div class="login-container">
+      <div class="login-card">
+        <h1>Korean Learning Hub</h1>
+        <form id="authForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required />
+          </div>
+          <div
+            class="form-group"
+            id="confirmPasswordGroup"
+            style="display: none"
+          >
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" />
+          </div>
+          <button type="submit" class="btn-login" id="authButton">Login</button>
+          <div
+            id="errorMessage"
+            class="error-message"
+            style="display: none"
+          ></div>
+        </form>
+        <div class="auth-toggle">
+          <span id="authToggleText"
+            >Don't have an account?
+            <a href="#" id="authToggleLink">Sign Up</a></span
+          >
+        </div>
+      </div>
+    </div>
+    <!-- Supabase Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="supabase-auth.js"></script>
+    <script>
+      let isSignUp = false;
+
+      function toggleTheme() {
+        document.body.classList.toggle("light-mode");
+        localStorage.setItem(
+          "theme",
+          document.body.classList.contains("light-mode") ? "light" : "dark"
+        );
+      }
+      // Load theme
+      if (localStorage.getItem("theme") === "light") {
+        document.body.classList.add("light-mode");
+      }
+
+      // Check for sign up success message
+      if (sessionStorage.getItem("signUpSuccess")) {
+        sessionStorage.removeItem("signUpSuccess");
+        showError(
+          "Account created! Please check your email and click the confirmation link to activate your account."
+        );
+      }
+
+      function showError(message) {
+        const errorDiv = document.getElementById("errorMessage");
+        errorDiv.textContent = message;
+        errorDiv.style.display = "block";
+      }
+
+      function hideError() {
+        document.getElementById("errorMessage").style.display = "none";
+      }
+
+      document
+        .getElementById("authToggleLink")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          isSignUp = !isSignUp;
+          const button = document.getElementById("authButton");
+          const toggleText = document.getElementById("authToggleText");
+          const confirmGroup = document.getElementById("confirmPasswordGroup");
+          const confirmInput = document.getElementById("confirmPassword");
+          if (isSignUp) {
+            button.textContent = "Sign Up";
+            toggleText.innerHTML =
+              'Already have an account? <a href="#" id="authToggleLink">Sign In</a>';
+            confirmGroup.style.display = "block";
+            confirmInput.required = true;
+          } else {
+            button.textContent = "Login";
+            toggleText.innerHTML =
+              'Don\'t have an account? <a href="#" id="authToggleLink">Sign Up</a>';
+            confirmGroup.style.display = "none";
+            confirmInput.required = false;
+          }
+          hideError();
+        });
+
+      document
+        .getElementById("authForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+          hideError();
+
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+
+          if (isSignUp) {
+            const confirmPassword =
+              document.getElementById("confirmPassword").value;
+            if (password !== confirmPassword) {
+              showError("Passwords do not match.");
+              return;
+            }
+          }
+
+          if (!window.auth) {
+            showError(
+              "Authentication system not ready. Please refresh the page."
+            );
+            return;
+          }
+
+          let result;
+          if (isSignUp) {
+            result = await window.auth.signUp(email, password);
+            if (result.success) {
+              sessionStorage.setItem("signUpSuccess", "true");
+              window.location.href = "login.html";
+              return;
+            }
+          } else {
+            result = await window.auth.signIn(email, password);
+            if (result.success) {
+              window.location.href = "index.html";
+              return;
+            }
+          }
+
+          if (!result.success) {
+            showError(result.error);
+          }
+        });
+
+      // Handle Supabase OAuth callback
+      async function handleAuthCallback() {
+        const hashParams = new URLSearchParams(
+          window.location.hash.substring(1)
+        );
+        const accessToken = hashParams.get("access_token");
+        const refreshToken = hashParams.get("refresh_token");
+        const type = hashParams.get("type");
+
+        if (accessToken && type === "magiclink") {
+          try {
+            // Set the session using the tokens from URL
+            const { data, error } = await window.supabaseClient.auth.setSession(
+              {
+                access_token: accessToken,
+                refresh_token: refreshToken,
+              }
+            );
+
+            if (error) throw error;
+
+            // Clear the URL parameters
+            window.location.hash = "";
+
+            // Redirect to main menu after successful authentication
+            window.location.href = "main-menu.html";
+          } catch (error) {
+            console.error("Error handling auth callback:", error);
+            showError("Authentication failed. Please try again.");
+          }
+        }
+      }
+
+      // Check for auth callback on page load
+      document.addEventListener("DOMContentLoaded", () => {
+        // Wait a bit for auth system to initialize
+        setTimeout(handleAuthCallback, 1000);
+      });
+    </script>
+  </body>
+</html>

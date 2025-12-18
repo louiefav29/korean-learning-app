@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Korean Language Flashcards</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇰🇷</text></svg>"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="header-nav">
+          <button
+            class="btn btn-secondary back-btn"
+            id="back-to-menu"
+            aria-label="Back to main menu"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            <span>Menu</span>
+          </button>
+          <div class="header-title">
+            <h1>Korean Language Flashcards</h1>
+            <p>Learn essential Korean vocabulary</p>
+          </div>
+        </div>
+        <button
+          class="theme-toggle"
+          id="theme-toggle"
+          aria-label="Toggle theme"
+        >
+          <svg
+            class="sun-icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg
+            class="moon-icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </header>
+
+      <main>
+        <!-- Progress Bar -->
+        <div class="progress-section">
+          <div class="progress-info">
+            <span>Progress</span>
+            <span id="progress-text">0 / 15 cards studied</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- Flashcard -->
+        <div class="flashcard-wrapper">
+          <div class="flashcard" id="flashcard">
+            <!-- Front of card -->
+            <div class="card-face card-front">
+              <div class="korean-text" id="korean-text">안녕하세요</div>
+              <div class="hint">Click to flip</div>
+            </div>
+            <!-- Back of card -->
+            <div class="card-face card-back">
+              <div class="english-text" id="english-text">Hello</div>
+              <div class="romanization-back" id="romanization-back">
+                annyeonghaseyo
+              </div>
+              <div class="audio-buttons">
+                <button
+                  class="audio-btn"
+                  id="korean-audio-btn"
+                  aria-label="Play Korean audio"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <polygon
+                      points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"
+                    ></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                  </svg>
+                  <span>Korean</span>
+                </button>
+                <button
+                  class="audio-btn"
+                  id="english-audio-btn"
+                  aria-label="Play English audio"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <polygon
+                      points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"
+                    ></polygon>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                  </svg>
+                  <span>English</span>
+                </button>
+              </div>
+              <div class="hint">Click to flip back</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="navigation">
+          <button class="btn btn-nav" id="prev-btn">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            <span class="btn-text">Previous</span>
+          </button>
+
+          <div class="card-info">
+            <div class="card-counter" id="card-counter">Card 1 of 15</div>
+            <div class="next-review" id="next-review" style="display: none">
+              <small>Next review: <span id="next-review-date">-</span></small>
+            </div>
+          </div>
+
+          <button class="btn btn-nav" id="next-btn">
+            <span class="btn-text">Next</span>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions">
+          <button class="btn btn-primary" id="flip-btn">Show English</button>
+          <button class="btn btn-secondary" id="play-btn">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span>Play</span>
+          </button>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-btn" id="analytics-btn">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+              <span>Analytics</span>
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                class="dropdown-arrow"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="dropdown-content" id="analytics-dropdown">
+              <button class="dropdown-item" id="stats-btn">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+                <span>Statistics</span>
+              </button>
+              <button class="dropdown-item" id="calendar-btn">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span>Calendar</span>
+              </button>
+            </div>
+          </div>
+          <button class="btn btn-secondary" id="new-deck-btn">
+            <span>New 20 Cards</span>
+          </button>
+        </div>
+
+        <!-- Difficulty Rating Buttons -->
+        <div
+          class="difficulty-section"
+          id="difficulty-section"
+          style="display: none"
+        >
+          <h3>How well did you know this?</h3>
+          <div class="difficulty-buttons">
+            <button class="btn btn-difficulty btn-easy" id="easy-btn">
+              <span>Easy</span>
+            </button>
+            <button class="btn btn-difficulty btn-medium" id="medium-btn">
+              <span>Medium</span>
+            </button>
+            <button class="btn btn-difficulty btn-hard" id="hard-btn">
+              <span>Hard</span>
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Statistics Modal -->
+    <div class="modal" id="stats-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Study Statistics</h2>
+          <button class="modal-close" id="stats-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <!-- Streak Section -->
+          <div class="stats-section">
+            <h3>🔥 Study Streaks</h3>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-value" id="current-streak">0</div>
+                <div class="stat-label">Current Streak</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="longest-streak">0</div>
+                <div class="stat-label">Longest Streak</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="study-days">0</div>
+                <div class="stat-label">Study Days</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress Section -->
+          <div class="stats-section">
+            <h3>📊 Overall Progress</h3>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-value" id="total-cards">0</div>
+                <div class="stat-label">Total Cards Studied</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="session-cards">0</div>
+                <div class="stat-label">Session Cards</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="session-accuracy">0%</div>
+                <div class="stat-label">Session Accuracy</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Learning Curve Chart -->
+          <div class="stats-section">
+            <h3>📈 Learning Curve (Last 7 Days)</h3>
+            <div class="chart-container">
+              <canvas
+                id="learning-curve-chart"
+                width="400"
+                height="200"
+              ></canvas>
+            </div>
+          </div>
+
+          <!-- Recent Performance -->
+          <div class="stats-section">
+            <h3>📅 Recent Performance</h3>
+            <div id="recent-performance" class="performance-list"></div>
+          </div>
+
+          <!-- Time Tracking -->
+          <div class="stats-section">
+            <h3>⏱️ Time Tracking</h3>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-value" id="total-study-time">0</div>
+                <div class="stat-label">Total Study Time (min)</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="avg-session-time">0</div>
+                <div class="stat-label">Avg Session Time (min)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weakness Analysis -->
+          <div class="stats-section">
+            <h3>🎯 Weakness Analysis</h3>
+            <div id="weakness-analysis" class="weakness-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calendar Modal -->
+    <div class="modal" id="calendar-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Learning Heatmap</h2>
+          <button class="modal-close" id="calendar-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <!-- Calendar Navigation -->
+          <div class="calendar-nav">
+            <button class="btn btn-secondary" id="prev-month">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+              Previous
+            </button>
+            <h3 id="current-month">December 2024</h3>
+            <button class="btn btn-secondary" id="next-month">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+              Next
+            </button>
+          </div>
+
+          <!-- Calendar Grid -->
+          <div class="calendar-grid" id="calendar-grid">
+            <!-- Calendar will be generated here -->
+          </div>
+
+          <!-- Legend -->
+          <div class="calendar-legend">
+            <div class="legend-item">
+              <div class="legend-color light"></div>
+              <span>Light (1-5 cards)</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color medium"></div>
+              <span>Medium (6-15 cards)</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color heavy"></div>
+              <span>Heavy (16+ cards)</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color blue"></div>
+              <span>Today</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Supabase Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="supabase-auth.js"></script>
+    <script src="supabase-database.js"></script>
+    <script src="flashcardData.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
