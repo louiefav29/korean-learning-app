@@ -228,52 +228,13 @@
       console.log("Current user:", window.auth?.getCurrentUser());
       console.log("========================");
 
-      // Check for sign up success message
-      if (sessionStorage.getItem("signUpSuccess")) {
-        sessionStorage.removeItem("signUpSuccess");
-        showError(
-          "Account created! Please check your email and click the confirmation link to activate your account."
-        );
-      }
+      // Test if form exists and event listener is attached
+      const authForm = document.getElementById("authForm");
+      console.log("Auth form found:", !!authForm);
 
-      function showError(message) {
-        const errorDiv = document.getElementById("errorMessage");
-        errorDiv.textContent = message;
-        errorDiv.style.display = "block";
-      }
-
-      function hideError() {
-        document.getElementById("errorMessage").style.display = "none";
-      }
-
-      document
-        .getElementById("authToggleLink")
-        .addEventListener("click", function (e) {
-          e.preventDefault();
-          isSignUp = !isSignUp;
-          const button = document.getElementById("authButton");
-          const toggleText = document.getElementById("authToggleText");
-          const confirmGroup = document.getElementById("confirmPasswordGroup");
-          const confirmInput = document.getElementById("confirmPassword");
-          if (isSignUp) {
-            button.textContent = "Sign Up";
-            toggleText.innerHTML =
-              'Already have an account? <a href="#" id="authToggleLink">Sign In</a>';
-            confirmGroup.style.display = "block";
-            confirmInput.required = true;
-          } else {
-            button.textContent = "Login";
-            toggleText.innerHTML =
-              'Don\'t have an account? <a href="#" id="authToggleLink">Sign Up</a>';
-            confirmGroup.style.display = "none";
-            confirmInput.required = false;
-          }
-          hideError();
-        });
-
-      document
-        .getElementById("authForm")
-        .addEventListener("submit", async function (event) {
+      if (authForm) {
+        console.log("Attaching form event listener...");
+        authForm.addEventListener("submit", async function (event) {
           console.log("Form submission triggered!");
           event.preventDefault();
           console.log("Form prevented default");
