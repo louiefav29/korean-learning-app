@@ -228,6 +228,47 @@
       console.log("Current user:", window.auth?.getCurrentUser());
       console.log("========================");
 
+      // Check for sign up success message
+      if (sessionStorage.getItem("signUpSuccess")) {
+        sessionStorage.removeItem("signUpSuccess");
+        showError(
+          "Account created! Please check your email and click the confirmation link to activate your account."
+        );
+      }
+
+      function showError(message) {
+        const errorDiv = document.getElementById("errorMessage");
+        const successDiv = document.getElementById("successMessage");
+        errorDiv.textContent = message;
+        errorDiv.style.display = "block";
+        successDiv.style.display = "none";
+      }
+
+      function hideError() {
+        document.getElementById("errorMessage").style.display = "none";
+        document.getElementById("successMessage").style.display = "none";
+      }
+
+      function toggleTheme() {
+        document.body.classList.toggle("light-mode");
+        localStorage.setItem(
+          "theme",
+          document.body.classList.contains("light-mode") ? "light" : "dark"
+        );
+      }
+
+      // Load theme
+      if (localStorage.getItem("theme") === "light") {
+        document.body.classList.add("light-mode");
+      }
+
+      // Test authentication system on page load
+      console.log("=== LOGIN PAGE DEBUG ===");
+      console.log("Supabase client available:", !!window.supabaseClient);
+      console.log("Auth system available:", !!window.auth);
+      console.log("Current user:", window.auth?.getCurrentUser());
+      console.log("========================");
+
       // Test if form exists and event listener is attached
       const authForm = document.getElementById("authForm");
       console.log("Auth form found:", !!authForm);
