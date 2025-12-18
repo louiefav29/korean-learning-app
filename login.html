@@ -212,13 +212,18 @@
       function showError(message) {
         const errorDiv = document.getElementById("errorMessage");
         const successDiv = document.getElementById("successMessage");
-        errorDiv.textContent = message;
-        errorDiv.style.display = "block";
+        if (errorDiv) {
+          errorDiv.textContent = message;
+          errorDiv.style.display = "block";
+        }
+        if (successDiv) successDiv.style.display = "none";
       }
 
       function hideError() {
-        document.getElementById("errorMessage").style.display = "none";
-        document.getElementById("successMessage").style.display = "none";
+        const errorDiv = document.getElementById("errorMessage");
+        const successDiv = document.getElementById("successMessage");
+        if (errorDiv) errorDiv.style.display = "none";
+        if (successDiv) successDiv.style.display = "none";
       }
 
       function toggleTheme() {
