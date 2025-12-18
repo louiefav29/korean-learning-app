@@ -424,6 +424,46 @@
     <script src="supabase-auth.js"></script>
     <script src="supabase-database.js"></script>
     <script src="flashcardData.js"></script>
-    <script src="menu-script.js"></script>
+    <script>
+      // Check authentication immediately
+      let retryCount = 0;
+      const maxRetries = 20;
+
+      function checkAuth() {
+        if (window.supabaseClient && window.auth) {
+          const user = window.auth.getCurrentUser();
+          if (user) {
+            // Authenticated, proceed with loading the menu
+            loadMenuScript();
+          } else {
+            // Not authenticated, redirect to login
+            window.location.href = "login.html";
+          }
+        } else {
+          retryCount++;
+          if (retryCount < maxRetries) {
+            setTimeout(checkAuth, 100);
+          } else {
+            // Fallback: redirect to login if auth doesn't initialize
+            window.location.href = "login.html";
+          }
+        }
+      }
+
+      function loadMenuScript() {
+        const script = document.createElement("script");
+        script.src = "menu-script.js";
+        script.onload = function () {
+          console.log("Menu script loaded successfully");
+        };
+        script.onerror = function () {
+          console.error("Failed to load menu script");
+        };
+        document.body.appendChild(script);
+      }
+
+      // Start checking immediately
+      checkAuth();
+    </script>
   </body>
 </html>
