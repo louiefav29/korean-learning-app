@@ -355,15 +355,9 @@
                   "Current auth user before redirect:",
                   window.auth?.getCurrentUser()
                 );
-                // Wait a moment for authentication state to update
-                setTimeout(() => {
-                  console.log(
-                    "After timeout, auth user:",
-                    window.auth?.getCurrentUser()
-                  );
-                  console.log("Redirecting to index.html");
-                  window.location.href = "index.html";
-                }, 500);
+                // Immediate redirect since user is already authenticated
+                console.log("Redirecting to index.html immediately");
+                window.location.href = "index.html";
                 return;
               } else {
                 console.error("Sign in failed:", result.error);
