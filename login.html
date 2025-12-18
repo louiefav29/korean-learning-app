@@ -265,6 +265,18 @@
           const email = document.getElementById("email").value;
           const password = document.getElementById("password").value;
 
+          // Validate email format
+          if (!email || !email.includes("@")) {
+            showError("Please enter a valid email address.");
+            return;
+          }
+
+          // Validate password
+          if (!password || password.length < 6) {
+            showError("Password must be at least 6 characters long.");
+            return;
+          }
+
           if (isSignUp) {
             const confirmPassword =
               document.getElementById("confirmPassword").value;
@@ -274,31 +286,82 @@
             }
           }
 
+          // Check if Supabase is available
+          if (!window.supabaseClient) {
+            showError(
+              "Supabase client not loaded. Please check your connection and refresh."
+            );
+            console.error("Supabase client not available");
+            return;
+          }
+
           if (!window.auth) {
             showError(
               "Authentication system not ready. Please refresh the page."
             );
+            console.error("Auth system not initialized");
             return;
           }
 
-          let result;
-          if (isSignUp) {
-            result = await window.auth.signUp(email, password);
-            if (result.success) {
-              sessionStorage.setItem("signUpSuccess", "true");
-              window.location.href = "login.html";
-              return;
-            }
-          } else {
-            result = await window.auth.signIn(email, password);
-            if (result.success) {
-              window.location.href = "index.html";
-              return;
-            }
-          }
+          // Show loading state
+          const submitButton = document.getElementById("authButton");
+          const originalText = submitButton.textContent;
+          submitButton.textContent = "Processing...";
+          submitButton.disabled = true;
 
-          if (!result.success) {
-            showError(result.error);
+          let result;
+          try {
+            if (isSignUp) {
+              console.log("Attempting sign up for:", email);
+              result = await window.auth.signUp(email, password);
+              if (result.success) {
+                sessionStorage.setItem("signUpSuccess", "true");
+                window.location.href = "login.html";
+                return;
+              } else {
+                console.error("Sign up failed:", result.error);
+                // Provide more specific error messages
+                if (result.error.includes("User already registered")) {
+                  showError(
+                    "This email is already registered. Try logging in instead."
+                  );
+                } else if (result.error.includes("Password")) {
+                  showError("Password issue: " + result.error);
+                } else {
+                  showError("Sign up failed: " + result.error);
+                }
+              }
+            } else {
+              console.log("Attempting sign in for:", email);
+              result = await window.auth.signIn(email, password);
+              if (result.success) {
+                window.location.href = "index.html";
+                return;
+              } else {
+                console.error("Sign in failed:", result.error);
+                // Provide more specific error messages
+                if (result.error.includes("Invalid login")) {
+                  showError(
+                    "Invalid email or password. Please check your credentials."
+                  );
+                } else if (result.error.includes("Email not confirmed")) {
+                  showError(
+                    "Please check your email and confirm your account before logging in."
+                  );
+                } else if (result.error.includes("Invalid email")) {
+                  showError("Invalid email address format.");
+                } else {
+                  showError("Login failed: " + result.error);
+                }
+              }
+            }
+          } catch (error) {
+            console.error("Authentication error:", error);
+            showError("An unexpected error occurred. Please try again.");
+          } finally {
+            // Restore button state
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
           }
         });
 
