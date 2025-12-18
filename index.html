@@ -10,7 +10,7 @@
     <script>
       // Wait for Supabase to initialize
       let retryCount = 0;
-      const maxRetries = 50; // About 5 seconds at 100ms intervals
+      const maxRetries = 10; // About 1 second at 100ms intervals
       function checkAuth() {
         if (window.supabaseClient && window.auth) {
           const user = window.auth.getCurrentUser();
@@ -29,8 +29,8 @@
           }
         }
       }
-      // Start checking after a short delay
-      setTimeout(checkAuth, 500);
+      // Start checking immediately
+      checkAuth();
     </script>
     <noscript>
       <meta http-equiv="refresh" content="0; url=login.html" />
