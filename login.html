@@ -289,7 +289,7 @@
         const refreshToken = hashParams.get("refresh_token");
         const type = hashParams.get("type");
 
-        if (accessToken && type === "magiclink") {
+        if (accessToken && (type === "magiclink" || type === "signup")) {
           try {
             // Set the session using the tokens from URL
             const { data, error } = await window.supabaseClient.auth.setSession(
