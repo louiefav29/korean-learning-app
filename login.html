@@ -211,19 +211,15 @@
       // Define functions first before they are used
       function showError(message) {
         const errorDiv = document.getElementById("errorMessage");
-        const successDiv = document.getElementById("successMessage");
         if (errorDiv) {
           errorDiv.textContent = message;
           errorDiv.style.display = "block";
         }
-        if (successDiv) successDiv.style.display = "none";
       }
 
       function hideError() {
         const errorDiv = document.getElementById("errorMessage");
-        const successDiv = document.getElementById("successMessage");
         if (errorDiv) errorDiv.style.display = "none";
-        if (successDiv) successDiv.style.display = "none";
       }
 
       function toggleTheme() {
