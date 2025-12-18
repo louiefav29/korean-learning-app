@@ -349,6 +349,9 @@
             } else {
               console.log("Attempting sign in for:", email);
               result = await window.auth.signIn(email, password);
+              console.log("Sign in result:", result);
+              console.log("Result success:", result.success);
+              console.log("Result error:", result.error);
               if (result.success) {
                 console.log("Login successful, user:", result.data);
                 console.log(
