@@ -10,14 +10,20 @@
     <script>
       // Wait for Supabase to initialize
       let retryCount = 0;
-      const maxRetries = 10; // About 1 second at 100ms intervals
+      const maxRetries = 20; // About 2 seconds at 100ms intervals
       function checkAuth() {
         if (window.supabaseClient && window.auth) {
           const user = window.auth.getCurrentUser();
           if (user) {
             window.location.href = "main-menu.html";
           } else {
-            window.location.href = "login.html";
+            retryCount++;
+            if (retryCount < maxRetries) {
+              setTimeout(checkAuth, 100);
+            } else {
+              // Fallback: redirect to login if not authenticated after retries
+              window.location.href = "login.html";
+            }
           }
         } else {
           retryCount++;

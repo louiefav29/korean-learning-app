@@ -342,7 +342,10 @@
               console.log("Attempting sign in for:", email);
               result = await window.auth.signIn(email, password);
               if (result.success) {
-                window.location.href = "index.html";
+                // Wait a moment for authentication state to update
+                setTimeout(() => {
+                  window.location.href = "index.html";
+                }, 500);
                 return;
               } else {
                 console.error("Sign in failed:", result.error);
