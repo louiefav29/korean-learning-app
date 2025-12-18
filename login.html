@@ -342,8 +342,18 @@
               console.log("Attempting sign in for:", email);
               result = await window.auth.signIn(email, password);
               if (result.success) {
+                console.log("Login successful, user:", result.data);
+                console.log(
+                  "Current auth user before redirect:",
+                  window.auth?.getCurrentUser()
+                );
                 // Wait a moment for authentication state to update
                 setTimeout(() => {
+                  console.log(
+                    "After timeout, auth user:",
+                    window.auth?.getCurrentUser()
+                  );
+                  console.log("Redirecting to index.html");
                   window.location.href = "index.html";
                 }, 500);
                 return;
