@@ -906,5 +906,4 @@ document.head.appendChild(style);
 
 // Initialize the hub when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
-  window.hub = new KoreanLearningHub();
-});
+window.hub = new KoreanLearningHub();

@@ -325,18 +325,24 @@
                 return;
               } else {
                 // Provide more specific error messages
-                if (result.error.includes("Invalid login")) {
-                  showError(
-                    "Invalid email or password. Please check your credentials."
-                  );
-                } else if (result.error.includes("Email not confirmed")) {
-                  showError(
-                    "Please check your email and confirm your account before logging in."
-                  );
-                } else if (result.error.includes("Invalid email")) {
-                  showError("Invalid email address format.");
+                if (result.error && typeof result.error === "string") {
+                  if (result.error.includes("Invalid login")) {
+                    showError(
+                      "Invalid email or password. Please check your credentials."
+                    );
+                  } else if (result.error.includes("Email not confirmed")) {
+                    showError(
+                      "Please check your email and confirm your account before logging in."
+                    );
+                  } else if (
+                    result.error.toLowerCase().includes("invalid email")
+                  ) {
+                    showError("Invalid email address format.");
+                  } else {
+                    showError("Login failed: " + result.error);
+                  }
                 } else {
-                  showError("Login failed: " + result.error);
+                  showError("Login failed. Please try again.");
                 }
               }
             }
