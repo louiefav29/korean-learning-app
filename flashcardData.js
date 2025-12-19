@@ -336,3 +336,37 @@ const flashcardData = [
     englishAudio: "audio/work_en.mp3",
   },
 ];
+
+// Spaced repetition update function for Easy/Medium/Hard ratings
+function updateSpacedRepetition(card, rating) {
+  if (!card.easeFactor) card.easeFactor = 2.5;
+  if (!card.interval) card.interval = 1;
+  if (!card.repetition) card.repetition = 0;
+
+  let q;
+  if (rating === "easy") q = 5;
+  else if (rating === "medium") q = 3;
+  else q = 1; // hard
+
+  if (q >= 3) {
+    if (card.repetition === 0) card.interval = 1;
+    else if (card.repetition === 1) card.interval = 6;
+    else card.interval = Math.round(card.interval * card.easeFactor);
+    card.repetition += 1;
+  } else {
+    card.repetition = 0;
+    card.interval = 1;
+  }
+
+  card.easeFactor = Math.max(
+    1.3,
+    card.easeFactor + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02))
+  );
+
+  const now = new Date();
+  card.dueDate = new Date(now.setDate(now.getDate() + card.interval));
+  return card;
+}
+
+// Example usage:
+// updateSpacedRepetition(flashcardData[0], "easy");

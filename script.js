@@ -1037,6 +1037,32 @@ function closeDropdown() {
   dropdown.classList.remove("active");
 }
 
+// Moving average for stats
+function movingAverage(data, key, windowSize = 7) {
+  return data.map((_, i, arr) => {
+    const slice = arr.slice(Math.max(0, i - windowSize + 1), i + 1);
+    const sum = slice.reduce((acc, d) => acc + (d[key] || 0), 0);
+    return sum / slice.length;
+  });
+}
+
+// Exponential smoothing for stats
+function exponentialSmoothing(data, key, alpha = 0.3) {
+  let result = [];
+  let prev = data[0][key] || 0;
+  data.forEach((d, i) => {
+    const value = d[key] || 0;
+    const smoothed = alpha * value + (1 - alpha) * prev;
+    result.push(smoothed);
+    prev = smoothed;
+  });
+  return result;
+}
+
+// Example usage:
+// let accuracyTrend = movingAverage(statsArray, 'accuracy');
+// let studyTimeTrend = exponentialSmoothing(statsArray, 'studyTime');
+
 // Event Listeners
 UI.flashcard.addEventListener("click", flipCard);
 UI.flipBtn.addEventListener("click", flipCard);

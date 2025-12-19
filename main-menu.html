@@ -1,3 +1,21 @@
+<div
+  id="logout-spinner"
+  style="display: none; align-items: center; gap: 0.5rem"
+>
+  <span
+    class="spinner"
+    style="
+      width: 20px;
+      height: 20px;
+      border: 2px solid #9333ea;
+      border-top: 2px solid #fff;
+      border-radius: 50%;
+      display: inline-block;
+      animation: spin 1s linear infinite;
+    "
+  ></span>
+  <span>Logging out...</span>
+</div>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -16,20 +34,60 @@
     <div class="container">
       <header>
         <div class="header-content">
-          <div class="header-actions" style="justify-content: flex-start">
+          <div
+            class="header-actions"
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              gap: 1rem;
+              flex-wrap: wrap;
+            "
+          >
             <button
               class="btn btn-secondary"
               id="sign-out-btn"
+              aria-label="Log out"
               style="margin-right: 1rem"
-              onclick="hub.handleSignOut()"
+              onclick="confirmLogout()"
+              title="Log out of your account"
             >
               Log Out
             </button>
+            <div
+              id="user-info"
+              style="display: flex; align-items: center; gap: 0.5rem"
+            >
+              <span
+                id="user-avatar"
+                style="
+                  width: 32px;
+                  height: 32px;
+                  border-radius: 50%;
+                  background: #eee;
+                  display: inline-block;
+                  text-align: center;
+                  line-height: 32px;
+                  font-weight: bold;
+                  font-size: 1rem;
+                "
+                >👤</span
+              >
+              <span id="user-name" style="font-weight: 500">User</span>
+            </div>
             <div style="flex: 1"></div>
+            <div
+              style="
+                border-left: 1px solid #e1e5e9;
+                height: 32px;
+                margin: 0 1rem;
+              "
+            ></div>
             <button
               class="theme-toggle"
               id="theme-toggle"
               aria-label="Toggle theme"
+              title="Switch between dark and light mode"
             >
               <svg
                 class="sun-icon"
@@ -429,6 +487,47 @@
     <script src="supabase-auth.js"></script>
     <script src="supabase-database.js"></script>
     <script src="flashcardData.js"></script>
+    <style>
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+    <script>
+      // Log out confirmation dialog
+      function confirmLogout() {
+        if (confirm("Are you sure you want to log out?")) {
+          showLogoutSpinner();
+          setTimeout(() => {
+            hub.handleSignOut();
+          }, 800);
+        }
+      }
+
+      function showLogoutSpinner() {
+        document.getElementById("sign-out-btn").style.display = "none";
+        document.getElementById("logout-spinner").style.display = "flex";
+      }
+      // Accessibility: allow keyboard navigation for header buttons
+      document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("sign-out-btn").tabIndex = 0;
+        document.getElementById("theme-toggle").tabIndex = 0;
+        document
+          .getElementById("sign-out-btn")
+          .addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") confirmLogout();
+          });
+        document
+          .getElementById("theme-toggle")
+          .addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") this.click();
+          });
+      });
+    </script>
     <script>
       // Improved authentication check: wait for auth.initialized
       function waitForAuthInit() {
@@ -452,6 +551,31 @@
 
       // Start checking for auth initialization
       waitForAuthInit();
+    </script>
+    <script>
+      // Smart Progress Tracking: update stats UI with moving average and exponential smoothing
+      function updateStatsUI(statsArray) {
+        // Calculate trends
+        const accuracyTrend = movingAverage(statsArray, "accuracy");
+        const studyTimeTrend = exponentialSmoothing(statsArray, "studyTime");
+
+        // Show latest values in quick stats
+        document.getElementById("accuracy-rate").textContent =
+          (accuracyTrend.length
+            ? Math.round(accuracyTrend[accuracyTrend.length - 1])
+            : 0) + "%";
+        document.getElementById("study-time").textContent =
+          (studyTimeTrend.length
+            ? Math.round(studyTimeTrend[studyTimeTrend.length - 1])
+            : 0) + "m";
+
+        // Optionally, visualize trends (e.g., with a chart library)
+        // Example: renderChart('accuracyChart', accuracyTrend);
+        // Example: renderChart('studyTimeChart', studyTimeTrend);
+      }
+
+      // Example usage:
+      // updateStatsUI(statsArray); // statsArray = [{accuracy: 90, studyTime: 30}, ...]
     </script>
   </body>
 </html>
