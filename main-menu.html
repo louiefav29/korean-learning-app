@@ -425,44 +425,20 @@
     <script src="supabase-database.js"></script>
     <script src="flashcardData.js"></script>
     <script>
-      // Check authentication immediately
-      let retryCount = 0;
-      const maxRetries = 20;
-
-      function checkAuth() {
-        console.log("Checking auth - retryCount:", retryCount);
-        console.log("supabaseClient available:", !!window.supabaseClient);
-        console.log("auth available:", !!window.auth);
-
-        if (window.supabaseClient && window.auth) {
+      // Improved authentication check: wait for auth.initialized
+      function waitForAuthInit() {
+        if (window.auth && window.auth.initialized) {
           const user = window.auth.getCurrentUser();
           console.log("Current user:", user);
-
           if (user) {
-            // Authenticated, proceed with loading the menu
             console.log("User authenticated, loading menu script");
             loadMenuScript();
           } else {
-            // Not authenticated, redirect to login
             console.log("User not authenticated, redirecting to login");
             window.location.href = "login.html";
           }
         } else {
-          retryCount++;
-          console.log(
-            "Auth not ready, retrying... (" +
-              retryCount +
-              "/" +
-              maxRetries +
-              ")"
-          );
-          if (retryCount < maxRetries) {
-            setTimeout(checkAuth, 100);
-          } else {
-            // Fallback: redirect to login if auth doesn't initialize
-            console.log("Auth failed to initialize, redirecting to login");
-            window.location.href = "login.html";
-          }
+          setTimeout(waitForAuthInit, 100);
         }
       }
 
@@ -478,8 +454,8 @@
         document.body.appendChild(script);
       }
 
-      // Start checking immediately
-      checkAuth();
+      // Start checking for auth initialization
+      waitForAuthInit();
     </script>
   </body>
 </html>
