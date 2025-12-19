@@ -649,6 +649,8 @@ function showDayDetails(dateKey) {
     return;
   }
   // ...existing code...
+  // Example: display details in a modal or alert
+  alert(
     `On ${dateKey}: ${stats.cardsStudied} cards studied, ${Math.round(
       stats.accuracy
     )}% accuracy, ${stats.studyTime || 0} min studied`
