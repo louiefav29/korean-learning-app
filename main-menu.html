@@ -429,12 +429,9 @@
       function waitForAuthInit() {
         if (window.auth && window.auth.initialized) {
           const user = window.auth.getCurrentUser();
-          console.log("Current user:", user);
           if (user) {
-            console.log("User authenticated, loading menu script");
             loadMenuScript();
           } else {
-            console.log("User not authenticated, redirecting to login");
             window.location.href = "login.html";
           }
         } else {
@@ -445,12 +442,6 @@
       function loadMenuScript() {
         const script = document.createElement("script");
         script.src = "menu-script.js";
-        script.onload = function () {
-          console.log("Menu script loaded successfully");
-        };
-        script.onerror = function () {
-          console.error("Failed to load menu script");
-        };
         document.body.appendChild(script);
       }
 
