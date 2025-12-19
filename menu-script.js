@@ -904,6 +904,5 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Initialize the hub when DOM is loaded
-document.addEventListener("DOMContentLoaded", () => {
+// Initialize the hub immediately after script loads
 window.hub = new KoreanLearningHub();
