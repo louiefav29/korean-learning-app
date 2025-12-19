@@ -25,22 +25,22 @@ class SupabaseAuth {
         this.handleAuthChange(event, session);
       });
     } catch (error) {
-      console.error("Auth initialization error:", error);
+      // ...existing code...
     }
   }
 
   handleAuthChange(event, session) {
     switch (event) {
       case "SIGNED_IN":
-        console.log("User signed in:", session.user);
+        // ...existing code...
         this.updateUIForSignedInUser();
         break;
       case "SIGNED_OUT":
-        console.log("User signed out");
+        // ...existing code...
         this.updateUIForSignedOutUser();
         break;
       case "TOKEN_REFRESHED":
-        console.log("Token refreshed");
+        // ...existing code...
         break;
     }
   }

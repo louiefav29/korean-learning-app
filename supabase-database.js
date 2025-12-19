@@ -319,10 +319,10 @@ class SupabaseDatabase {
           await this.addFlashcard(card);
         }
 
-        console.log("Default flashcards initialized");
+        // ...existing code...
       }
     } catch (error) {
-      console.error("Error initializing default flashcards:", error);
+      // ...existing code...
     }
   }
 }

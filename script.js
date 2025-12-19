@@ -107,7 +107,7 @@ const Autoplay = {
       });
 
       this.koreanAudio.play().catch((error) => {
-        console.warn("Audio play failed:", error);
+        // ...existing code...
         this.koreanAudio = null;
       });
 
@@ -120,7 +120,7 @@ const Autoplay = {
           });
 
           this.englishAudio.play().catch((error) => {
-            console.warn("Audio play failed:", error);
+            // ...existing code...
             this.englishAudio = null;
           });
         }
@@ -645,10 +645,10 @@ function getCardCountForDate(dateKey) {
 function showDayDetails(dateKey) {
   const stats = studyStatistics.dailyStats[dateKey];
   if (!stats) {
-    alert(`No study data for ${dateKey}`);
+    // ...existing code...
     return;
   }
-  alert(
+  // ...existing code...
     `On ${dateKey}: ${stats.cardsStudied} cards studied, ${Math.round(
       stats.accuracy
     )}% accuracy, ${stats.studyTime || 0} min studied`
@@ -663,7 +663,7 @@ function playKoreanAudio(event) {
   event.stopPropagation();
   const card = dailyDeck[currentIndex];
   if (card?.koreanAudio) {
-    new Audio(card.koreanAudio).play().catch(console.error);
+    new Audio(card.koreanAudio).play();
   }
 }
 
@@ -671,7 +671,7 @@ function playEnglishAudio(event) {
   event.stopPropagation();
   const card = dailyDeck[currentIndex];
   if (card?.englishAudio) {
-    new Audio(card.englishAudio).play().catch(console.error);
+    new Audio(card.englishAudio).play();
   }
 }
 
