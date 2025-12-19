@@ -234,6 +234,38 @@ class SupabaseDatabase {
     }
   }
 
+  // Save user stats to Supabase
+  async saveUserStats(userId, stats) {
+    // stats: { date, accuracy, study_time }
+    try {
+      const { data, error } = await this.supabase.from("user_stats").upsert({
+        user_id: userId,
+        date: stats.date,
+        accuracy: stats.accuracy,
+        study_time: stats.study_time,
+      });
+      if (error) throw error;
+      return { success: true, data };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  // Load all stats for a user
+  async loadUserStats(userId) {
+    try {
+      const { data, error } = await this.supabase
+        .from("user_stats")
+        .select("date, accuracy, study_time")
+        .eq("user_id", userId)
+        .order("date", { ascending: true });
+      if (error) throw error;
+      return { success: true, data };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+
   // Helper Methods
   calculateNextReview(difficultyRating) {
     const now = new Date();

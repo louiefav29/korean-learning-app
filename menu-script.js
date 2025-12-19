@@ -463,6 +463,25 @@ class KoreanLearningHub {
     }
   }
 
+  async loadUserStatsAndUpdateUI() {
+    if (!window.auth || !window.auth.getCurrentUser) return;
+    const user = window.auth.getCurrentUser();
+    if (!user || !user.id) return;
+    const db = new SupabaseDatabase();
+    const result = await db.loadUserStats(user.id);
+    if (result.success) {
+      this.updateStatsDisplay(result.data);
+    }
+  }
+
+  async saveUserStatsOnSession(stats) {
+    if (!window.auth || !window.auth.getCurrentUser) return;
+    const user = window.auth.getCurrentUser();
+    if (!user || !user.id) return;
+    const db = new SupabaseDatabase();
+    await db.saveUserStats(user.id, stats);
+  }
+
   updateStatsDisplay(stats) {
     const totalStudied = document.getElementById("total-studied");
     const currentStreak = document.getElementById("current-streak");
