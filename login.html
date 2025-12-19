@@ -236,7 +236,6 @@
       }
 
       // Test authentication system on page load
-      // ...existing code...
 
       // Check for sign up success message
       if (sessionStorage.getItem("signUpSuccess")) {
@@ -248,32 +247,23 @@
 
       // Test if form exists and event listener is attached
       const authForm = document.getElementById("authForm");
-      // ...existing code...
 
       if (authForm) {
-        // ...existing code...
         authForm.addEventListener("submit", async function (event) {
-          // ...existing code...
           event.preventDefault();
-          // ...existing code...
           hideError();
 
           const email = document.getElementById("email").value;
           const password = document.getElementById("password").value;
 
-          // ...existing code...
-          // ...existing code...
-
           // Validate email format
           if (!email || !email.includes("@")) {
-            // ...existing code...
             showError("Please enter a valid email address.");
             return;
           }
 
           // Validate password
           if (!password || password.length < 6) {
-            // ...existing code...
             showError("Password must be at least 6 characters long.");
             return;
           }
@@ -292,7 +282,6 @@
             showError(
               "Supabase client not loaded. Please check your connection and refresh."
             );
-            // ...existing code...
             return;
           }
 
@@ -300,7 +289,6 @@
             showError(
               "Authentication system not ready. Please refresh the page."
             );
-            // ...existing code...
             return;
           }
 
@@ -313,14 +301,12 @@
           let result;
           try {
             if (isSignUp) {
-              // ...existing code...
               result = await window.auth.signUp(email, password);
               if (result.success) {
                 sessionStorage.setItem("signUpSuccess", "true");
                 window.location.href = "login.html";
                 return;
               } else {
-                // ...existing code...
                 // Provide more specific error messages
                 if (result.error.includes("User already registered")) {
                   showError(
@@ -333,23 +319,11 @@
                 }
               }
             } else {
-              // ...existing code...
               result = await window.auth.signIn(email, password);
-              // ...existing code...
-              // ...existing code...
-              // ...existing code...
               if (result.success) {
-                // ...existing code...
-                // ...existing code...
-                  "Current auth user before redirect:",
-                  window.auth?.getCurrentUser()
-                );
-                // Immediate redirect since user is already authenticated
-                // ...existing code...
                 window.location.href = "main-menu.html";
                 return;
               } else {
-                // ...existing code...
                 // Provide more specific error messages
                 if (result.error.includes("Invalid login")) {
                   showError(
@@ -367,10 +341,8 @@
               }
             }
           } catch (error) {
-            // ...existing code...
             showError("An unexpected error occurred. Please try again.");
           } finally {
-            // Restore button state
             submitButton.textContent = originalText;
             submitButton.disabled = false;
           }
@@ -404,7 +376,7 @@
             // Redirect to main menu after successful authentication
             window.location.href = "main-menu.html";
           } catch (error) {
-            // ...existing code...
+            // ...existing code removed...
             showError("Authentication failed. Please try again.");
           }
         }
